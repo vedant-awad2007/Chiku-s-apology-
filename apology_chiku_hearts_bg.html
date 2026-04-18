@@ -1,0 +1,210 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+#app{font-family:Arial,sans-serif;background:#fff0f6;min-height:100vh;width:100%;overflow-x:hidden;position:relative}
+#heartCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.content{position:relative;z-index:1}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.13)}}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%,100%{opacity:.7}50%{opacity:1}}
+@keyframes popIn{0%{transform:scale(0.5);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@keyframes sparkle{0%,100%{transform:scale(0) rotate(0deg);opacity:0}50%{transform:scale(1) rotate(180deg);opacity:1}}
+.hero{background:rgba(252,228,236,0.92);padding:48px 24px 36px;text-align:center;border-radius:0 0 44px 44px}
+.big-heart{font-size:80px;display:block;line-height:1;margin-bottom:12px;animation:pulse 2.2s ease-in-out infinite}
+.for-lbl{font-size:12px;letter-spacing:3px;color:#e91e8c;text-transform:uppercase;margin-bottom:6px;font-weight:700}
+.hero h1{font-size:26px;color:#880e4f;line-height:1.35;margin-bottom:8px;font-family:Georgia,serif}
+.hero h1 span{color:#e91e8c}
+.hero-sub{font-size:14px;color:#ad1457;line-height:1.75}
+.section{margin:16px 14px 0;animation:fadeSlideUp .5s ease both}
+.card{background:rgba(255,255,255,0.93);border-radius:24px;padding:22px 20px;border:1.5px solid #f8bbd0;backdrop-filter:blur(4px)}
+.card-head{font-size:15px;font-weight:700;color:#c2185b;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.body-txt{font-size:14px;color:#5a2d40;line-height:1.85}
+.reason-btn{width:100%;background:#fce4ec;border:1.5px solid #f48fb1;border-radius:16px;padding:14px 16px;text-align:left;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;gap:12px;transition:background .2s,transform .15s;-webkit-tap-highlight-color:transparent}
+.reason-btn:last-child{margin-bottom:0}
+.reason-btn:hover,.reason-btn:active{background:#f8bbd0;transform:scale(1.02)}
+.reason-btn .ricon{font-size:20px;flex-shrink:0}
+.reason-btn .rtxt{font-size:14px;color:#880e4f;font-weight:700;line-height:1.4}
+.promise-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.promise-card{background:#fce4ec;border:1.5px solid #f48fb1;border-radius:18px;padding:16px 10px;text-align:center;cursor:pointer;transition:transform .15s,background .2s;-webkit-tap-highlight-color:transparent}
+.promise-card:hover,.promise-card:active{background:#f8bbd0;transform:scale(1.04)}
+.promise-card .pico{font-size:26px;display:block;margin-bottom:6px}
+.promise-card .ptxt{font-size:12px;color:#880e4f;font-weight:700;line-height:1.4}
+.hug-btn{display:block;width:calc(100% - 28px);margin:20px 14px 0;background:#e91e8c;color:#fff;border:none;border-radius:100px;padding:16px;font-size:17px;font-weight:700;cursor:pointer;text-align:center;transition:background .2s,transform .15s}
+.hug-btn:hover{background:#c2185b;transform:scale(1.03)}
+.footer{text-align:center;padding:24px 16px 40px;font-size:13px;color:#c2185b;font-weight:700;animation:shimmer 3s ease-in-out infinite}
+.overlay{display:none;position:fixed;inset:0;z-index:50;background:rgba(136,14,79,.25);align-items:flex-end;justify-content:center}
+.overlay.show{display:flex}
+.sheet{background:#fff;border-radius:32px 32px 0 0;padding:32px 24px 52px;width:100%;max-width:420px;text-align:center;animation:fadeSlideUp .3s ease}
+.sheet-ico{font-size:56px;display:block;margin-bottom:10px;animation:popIn .4s ease}
+.sheet-title{font-size:20px;font-weight:700;color:#c2185b;margin-bottom:10px;font-family:Georgia,serif}
+.sheet-body{font-size:14px;color:#5a2d40;line-height:1.8;margin-bottom:22px}
+.sheet-close{background:#e91e8c;color:#fff;border:none;border-radius:100px;padding:13px 36px;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s}
+.sheet-close:hover{background:#c2185b}
+</style>
+
+<canvas id="heartCanvas"></canvas>
+
+<div class="content" id="app">
+  <div class="hero">
+    <span class="big-heart">&#x1F970;</span>
+    <div class="for-lbl">A message for</div>
+    <h1>My dearest <span>Chiku</span> &#x1F338;</h1>
+    <p class="hero-sub">I messed up yesterday and I am so, so sorry.<br>You deserve all the kindness in the world.</p>
+  </div>
+
+  <div class="section" style="animation-delay:.1s">
+    <div class="card">
+      <div class="card-head"><span>&#x1F49C;</span> From the bottom of my heart</div>
+      <p class="body-txt">Chiku, I hate that I raised my voice at you. You didn't deserve that — not even a little bit. I was wrong, and I am genuinely sorry. Seeing you sad because of something I did breaks my heart completely.</p>
+    </div>
+  </div>
+
+  <div class="section" style="animation-delay:.2s">
+    <div class="card">
+      <div class="card-head"><span>&#x1F972;</span> Why I am sorry (tap each one)</div>
+      <button class="reason-btn" onclick="openSheet('shout')"><span class="ricon">&#x1F4A2;</span><span class="rtxt">I should never have shouted at you</span></button>
+      <button class="reason-btn" onclick="openSheet('hurt')"><span class="ricon">&#x1F9E1;</span><span class="rtxt">I hurt your feelings and that is not okay</span></button>
+      <button class="reason-btn" onclick="openSheet('deserve')"><span class="ricon">&#x2728;</span><span class="rtxt">You deserve only kindness and love</span></button>
+      <button class="reason-btn" onclick="openSheet('miss')"><span class="ricon">&#x1F97A;</span><span class="rtxt">I miss your smile so much right now</span></button>
+    </div>
+  </div>
+
+  <div class="section" style="animation-delay:.3s">
+    <div class="card">
+      <div class="card-head"><span>&#x1F91D;</span> My promises to you, Chiku</div>
+      <div class="promise-grid">
+        <div class="promise-card" onclick="openSheet('p1')"><span class="pico">&#x1F9D8;</span><div class="ptxt">Stay calm always</div></div>
+        <div class="promise-card" onclick="openSheet('p2')"><span class="pico">&#x1F442;</span><div class="ptxt">Listen more to you</div></div>
+        <div class="promise-card" onclick="openSheet('p3')"><span class="pico">&#x1F917;</span><div class="ptxt">Extra hugs daily</div></div>
+        <div class="promise-card" onclick="openSheet('p4')"><span class="pico">&#x1F451;</span><div class="ptxt">Treat you like a queen</div></div>
+      </div>
+    </div>
+  </div>
+
+  <button class="hug-btn" id="hugBtn" onclick="sendHug()">&#x1F48C; Send Chiku a virtual hug!</button>
+  <div class="footer">Made with so much love, just for my Chiku &#x2764;&#xFE0F;</div>
+
+  <div class="overlay" id="overlay" onclick="closeSheet(event)">
+    <div class="sheet">
+      <span class="sheet-ico" id="sico"></span>
+      <div class="sheet-title" id="stitle"></div>
+      <p class="sheet-body" id="sbody"></p>
+      <button class="sheet-close" onclick="closeSheetDirect()">Okay, I feel a little better &#x1F970;</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var data={
+  shout:{ico:'&#x1F62D;',title:'I should never have shouted',body:"No matter how stressed or upset I was, raising my voice at you was not okay. You are my safe place — and I want to be yours too. I promise to always communicate with softness and love, never anger."},
+  hurt:{ico:'&#x1F494;',title:'Your feelings matter so much',body:"When I see you sad, especially because of me, it hurts more than anything. You feel everything so deeply and that is one of the things I love most about you, Chiku. I am sorry I made you feel anything less than adored."},
+  deserve:{ico:'&#x1F31F;',title:'You deserve so much better',body:"You are the sweetest, most caring person I know. You deserve patience, softness and love every single day — not someone losing their temper. I will do better for you, I promise."},
+  miss:{ico:'&#x1FAF6;',title:'I miss my Chiku \u2764',body:"Every moment you are upset with me feels like forever. I miss your smile, your laugh, your warmth — everything about you. Please let me make it up to you, my love."},
+  p1:{ico:'&#x1F9D8;',title:'I will stay calm',body:"When things get hard, I promise to take a breath instead of raising my voice. You deserve a calm, patient and loving partner — and that is exactly what I will be for you."},
+  p2:{ico:'&#x1F442;',title:'I will listen more',body:"I promise to truly listen to you — not just hear you. Your thoughts, your feelings, your dreams all matter deeply to me. I am all yours, Chiku."},
+  p3:{ico:'&#x1F917;',title:'Extra hugs incoming',body:"I will hug you tighter and love you louder every single day to make up for yesterday and for every moment I was not my best self. Prepare for a lot of hugs, Chiku!"},
+  p4:{ico:'&#x1F451;',title:'Treat you like royalty',body:"You are my queen, Chiku, and I will treat you exactly the way you deserve — with endless love, respect and care, every single day without fail."}
+};
+
+function openSheet(key){
+  var d=data[key];
+  document.getElementById('sico').innerHTML=d.ico;
+  document.getElementById('stitle').textContent=d.title;
+  document.getElementById('sbody').textContent=d.body;
+  document.getElementById('overlay').classList.add('show');
+}
+function closeSheetDirect(){document.getElementById('overlay').classList.remove('show');}
+function closeSheet(e){if(e.target===document.getElementById('overlay'))closeSheetDirect();}
+
+function sendHug(){
+  var btn=document.getElementById('hugBtn');
+  btn.textContent='Sending love to Chiku... \u2764\uFE0F';
+  btn.style.background='#880e4f';
+  for(var i=0;i<18;i++){
+    (function(idx){
+      setTimeout(function(){
+        var s=document.createElement('div');
+        var icons=['&#x2764;','&#x1F48B;','&#x1F338;','&#x2728;','&#x1F970;'];
+        s.innerHTML=icons[idx%5];
+        s.style.cssText='position:fixed;font-size:26px;pointer-events:none;z-index:99;left:'+Math.round(Math.random()*80)+'vw;top:'+Math.round(Math.random()*80)+'vh;animation:sparkle 1.5s ease forwards';
+        document.body.appendChild(s);
+        setTimeout(function(){s.remove();},1600);
+      },idx*110);
+    })(i);
+  }
+  setTimeout(function(){
+    data['hug']={ico:'&#x1F48C;',title:'Hug delivered to Chiku!',body:'A warm, tight, never-ending hug has been sent straight to Chiku with all the love in the world. Please forgive me, my love. I am sorry from the bottom of my heart. \u2764\uFE0F'};
+    openSheet('hug');
+    btn.textContent='\u2764 Hug sent to Chiku!';
+    btn.style.background='#c2185b';
+  },2000);
+}
+
+/* ── Floating hearts canvas ── */
+var canvas=document.getElementById('heartCanvas');
+var ctx=canvas.getContext('2d');
+
+function resize(){
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+}
+resize();
+window.addEventListener('resize',resize);
+
+function heartPath(ctx,x,y,size){
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.scale(size,size);
+  ctx.beginPath();
+  ctx.moveTo(0,-0.35);
+  ctx.bezierCurveTo(0.5,-1,1.2,-0.2,0,0.6);
+  ctx.bezierCurveTo(-1.2,-0.2,-0.5,-1,0,-0.35);
+  ctx.closePath();
+  ctx.restore();
+}
+
+var COLORS=['rgba(255,105,180,','rgba(255,150,200,','rgba(255,182,193,','rgba(219,112,147,','rgba(255,20,147,','rgba(255,200,220,'];
+
+var hearts=[];
+for(var i=0;i<28;i++){
+  hearts.push(spawnHeart(true));
+}
+
+function spawnHeart(initial){
+  var size=6+Math.random()*18;
+  return{
+    x:Math.random()*window.innerWidth,
+    y:initial?Math.random()*window.innerHeight:window.innerHeight+size*2,
+    size:size,
+    speedY:0.4+Math.random()*0.8,
+    speedX:(Math.random()-0.5)*0.5,
+    opacity:0.12+Math.random()*0.28,
+    wobble:Math.random()*Math.PI*2,
+    wobbleSpeed:0.015+Math.random()*0.02,
+    color:COLORS[Math.floor(Math.random()*COLORS.length)],
+    rotation:(Math.random()-0.5)*0.6
+  };
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for(var i=0;i<hearts.length;i++){
+    var h=hearts[i];
+    h.y-=h.speedY;
+    h.wobble+=h.wobbleSpeed;
+    h.x+=Math.sin(h.wobble)*0.6+h.speedX;
+    if(h.y<-h.size*3){hearts[i]=spawnHeart(false);}
+    ctx.save();
+    ctx.globalAlpha=h.opacity;
+    ctx.translate(h.x,h.y);
+    ctx.rotate(h.rotation+Math.sin(h.wobble*0.5)*0.08);
+    ctx.scale(1,1);
+    heartPath(ctx,0,0,h.size);
+    ctx.fillStyle=h.color+'1)';
+    ctx.fill();
+    ctx.restore();
+  }
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
