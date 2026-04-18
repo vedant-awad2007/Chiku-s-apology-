@@ -1,210 +1,223 @@
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-#app{font-family:Arial,sans-serif;background:#fff0f6;min-height:100vh;width:100%;overflow-x:hidden;position:relative}
-#heartCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
-.content{position:relative;z-index:1}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.13)}}
-@keyframes fadeSlideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body,#root{min-height:100%;width:100%}
+#app{font-family:'Nunito',Arial,sans-serif;background:#fff0f6;min-height:100vh;width:100%;position:relative;overflow-x:hidden;padding-bottom:48px}
+#heartCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.z1{position:relative;z-index:1}
+
+/* HERO */
+.hero{background:#fce4ec;padding:52px 20px 40px;text-align:center;border-radius:0 0 48px 48px;margin-bottom:4px}
+.hero-heart{font-size:72px;display:block;line-height:1;margin-bottom:16px;animation:hpulse 2.4s ease-in-out infinite}
+@keyframes hpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.hero-for{font-size:11px;letter-spacing:3.5px;color:#e91e8c;text-transform:uppercase;font-weight:800;margin-bottom:8px}
+.hero-name{font-size:30px;font-weight:800;color:#880e4f;line-height:1.25;margin-bottom:10px}
+.hero-name em{color:#e91e8c;font-style:normal}
+.hero-sub{font-size:15px;color:#ad1457;line-height:1.7;font-weight:600}
+
+/* SECTIONS */
+.sec{padding:0 16px;margin-top:18px;animation:fsu .5s ease both}
+@keyframes fsu{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* CARDS */
+.card{background:rgba(255,255,255,.95);border-radius:28px;padding:22px 18px;border:1.5px solid #f8bbd0}
+.card-title{font-size:16px;font-weight:800;color:#c2185b;margin-bottom:16px;display:flex;align-items:center;gap:9px}
+.card-title .ci{font-size:20px}
+.card-body{font-size:14px;color:#5c2d3e;line-height:1.8;font-weight:600}
+
+/* REASON BUTTONS */
+.rbtn{width:100%;background:#fff0f6;border:1.5px solid #f48fb1;border-radius:18px;padding:15px 16px;text-align:left;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;gap:13px;transition:transform .13s,background .15s}
+.rbtn:last-child{margin-bottom:0}
+.rbtn:active{background:#fce4ec;transform:scale(.98)}
+.rbtn-icon{font-size:22px;flex-shrink:0;width:36px;height:36px;background:#fce4ec;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.rbtn-text{font-size:14px;color:#880e4f;font-weight:700;line-height:1.45;flex:1}
+
+/* PROMISE GRID */
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+.pcard{background:#fff0f6;border:1.5px solid #f48fb1;border-radius:22px;padding:20px 10px 16px;text-align:center;cursor:pointer;transition:transform .13s,background .15s}
+.pcard:active{background:#fce4ec;transform:scale(.97)}
+.pcard-icon{font-size:32px;display:block;margin-bottom:8px}
+.pcard-text{font-size:13px;color:#880e4f;font-weight:800;line-height:1.4}
+
+/* HUG BUTTON */
+.hug-wrap{padding:0 16px;margin-top:22px}
+.hug-btn{width:100%;background:#e91e8c;color:#fff;border:none;border-radius:100px;padding:18px 20px;font-size:17px;font-weight:800;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .13s,background .15s;box-shadow:0 4px 20px rgba(233,30,140,.3)}
+.hug-btn:active{background:#c2185b;transform:scale(.98)}
+
+/* FOOTER */
+.footer{text-align:center;padding:28px 16px 8px;font-size:13px;color:#c2185b;font-weight:700;animation:shimmer 3s ease-in-out infinite}
 @keyframes shimmer{0%,100%{opacity:.7}50%{opacity:1}}
-@keyframes popIn{0%{transform:scale(0.5);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
-@keyframes sparkle{0%,100%{transform:scale(0) rotate(0deg);opacity:0}50%{transform:scale(1) rotate(180deg);opacity:1}}
-.hero{background:rgba(252,228,236,0.92);padding:48px 24px 36px;text-align:center;border-radius:0 0 44px 44px}
-.big-heart{font-size:80px;display:block;line-height:1;margin-bottom:12px;animation:pulse 2.2s ease-in-out infinite}
-.for-lbl{font-size:12px;letter-spacing:3px;color:#e91e8c;text-transform:uppercase;margin-bottom:6px;font-weight:700}
-.hero h1{font-size:26px;color:#880e4f;line-height:1.35;margin-bottom:8px;font-family:Georgia,serif}
-.hero h1 span{color:#e91e8c}
-.hero-sub{font-size:14px;color:#ad1457;line-height:1.75}
-.section{margin:16px 14px 0;animation:fadeSlideUp .5s ease both}
-.card{background:rgba(255,255,255,0.93);border-radius:24px;padding:22px 20px;border:1.5px solid #f8bbd0;backdrop-filter:blur(4px)}
-.card-head{font-size:15px;font-weight:700;color:#c2185b;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.body-txt{font-size:14px;color:#5a2d40;line-height:1.85}
-.reason-btn{width:100%;background:#fce4ec;border:1.5px solid #f48fb1;border-radius:16px;padding:14px 16px;text-align:left;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;gap:12px;transition:background .2s,transform .15s;-webkit-tap-highlight-color:transparent}
-.reason-btn:last-child{margin-bottom:0}
-.reason-btn:hover,.reason-btn:active{background:#f8bbd0;transform:scale(1.02)}
-.reason-btn .ricon{font-size:20px;flex-shrink:0}
-.reason-btn .rtxt{font-size:14px;color:#880e4f;font-weight:700;line-height:1.4}
-.promise-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
-.promise-card{background:#fce4ec;border:1.5px solid #f48fb1;border-radius:18px;padding:16px 10px;text-align:center;cursor:pointer;transition:transform .15s,background .2s;-webkit-tap-highlight-color:transparent}
-.promise-card:hover,.promise-card:active{background:#f8bbd0;transform:scale(1.04)}
-.promise-card .pico{font-size:26px;display:block;margin-bottom:6px}
-.promise-card .ptxt{font-size:12px;color:#880e4f;font-weight:700;line-height:1.4}
-.hug-btn{display:block;width:calc(100% - 28px);margin:20px 14px 0;background:#e91e8c;color:#fff;border:none;border-radius:100px;padding:16px;font-size:17px;font-weight:700;cursor:pointer;text-align:center;transition:background .2s,transform .15s}
-.hug-btn:hover{background:#c2185b;transform:scale(1.03)}
-.footer{text-align:center;padding:24px 16px 40px;font-size:13px;color:#c2185b;font-weight:700;animation:shimmer 3s ease-in-out infinite}
-.overlay{display:none;position:fixed;inset:0;z-index:50;background:rgba(136,14,79,.25);align-items:flex-end;justify-content:center}
+
+/* BOTTOM SHEET OVERLAY */
+.overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(136,14,79,.3);align-items:flex-end;justify-content:center}
 .overlay.show{display:flex}
-.sheet{background:#fff;border-radius:32px 32px 0 0;padding:32px 24px 52px;width:100%;max-width:420px;text-align:center;animation:fadeSlideUp .3s ease}
-.sheet-ico{font-size:56px;display:block;margin-bottom:10px;animation:popIn .4s ease}
-.sheet-title{font-size:20px;font-weight:700;color:#c2185b;margin-bottom:10px;font-family:Georgia,serif}
-.sheet-body{font-size:14px;color:#5a2d40;line-height:1.8;margin-bottom:22px}
-.sheet-close{background:#e91e8c;color:#fff;border:none;border-radius:100px;padding:13px 36px;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s}
-.sheet-close:hover{background:#c2185b}
+.sheet{background:#fff;border-radius:36px 36px 0 0;padding:12px 0 0;width:100%;max-width:520px;animation:sup .32s cubic-bezier(.22,.68,0,1.2)}
+@keyframes sup{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.sheet-drag{width:44px;height:5px;background:#f8bbd0;border-radius:99px;margin:0 auto 20px}
+.sheet-inner{padding:0 24px 52px;text-align:center}
+.sheet-ico{font-size:60px;display:block;margin-bottom:12px;animation:pop .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.sheet-title{font-size:22px;font-weight:800;color:#c2185b;margin-bottom:12px;line-height:1.25}
+.sheet-body{font-size:15px;color:#5c2d3e;line-height:1.8;font-weight:600;margin-bottom:28px}
+.sheet-close{background:#e91e8c;color:#fff;border:none;border-radius:100px;padding:15px 40px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;width:100%;max-width:280px;transition:background .15s}
+.sheet-close:active{background:#c2185b}
+
+/* SPARKLE */
+@keyframes sparkle{0%,100%{transform:scale(0) rotate(0deg);opacity:0}50%{transform:scale(1) rotate(180deg);opacity:1}}
 </style>
 
 <canvas id="heartCanvas"></canvas>
 
-<div class="content" id="app">
-  <div class="hero">
-    <span class="big-heart">&#x1F970;</span>
-    <div class="for-lbl">A message for</div>
-    <h1>My dearest <span>Chiku</span> &#x1F338;</h1>
-    <p class="hero-sub">I messed up yesterday and I am so, so sorry.<br>You deserve all the kindness in the world.</p>
+<div id="app" class="z1">
+  <div class="hero z1">
+    <span class="hero-heart">🥰</span>
+    <div class="hero-for">A special message for</div>
+    <div class="hero-name">My dearest <em>Chiku</em> 🌸</div>
+    <div class="hero-sub">I messed up and I am so, so sorry.<br>You deserve all the love in the world.</div>
   </div>
 
-  <div class="section" style="animation-delay:.1s">
+  <div class="sec" style="animation-delay:.1s">
     <div class="card">
-      <div class="card-head"><span>&#x1F49C;</span> From the bottom of my heart</div>
-      <p class="body-txt">Chiku, I hate that I raised my voice at you. You didn't deserve that — not even a little bit. I was wrong, and I am genuinely sorry. Seeing you sad because of something I did breaks my heart completely.</p>
+      <div class="card-title"><span class="ci">💜</span>From the bottom of my heart</div>
+      <div class="card-body">Chiku, I hate that I raised my voice at you. You didn't deserve that — not even a little bit. I was wrong, and I'm genuinely sorry. Seeing you sad because of me breaks my heart completely. 💕</div>
     </div>
   </div>
 
-  <div class="section" style="animation-delay:.2s">
+  <div class="sec" style="animation-delay:.18s">
     <div class="card">
-      <div class="card-head"><span>&#x1F972;</span> Why I am sorry (tap each one)</div>
-      <button class="reason-btn" onclick="openSheet('shout')"><span class="ricon">&#x1F4A2;</span><span class="rtxt">I should never have shouted at you</span></button>
-      <button class="reason-btn" onclick="openSheet('hurt')"><span class="ricon">&#x1F9E1;</span><span class="rtxt">I hurt your feelings and that is not okay</span></button>
-      <button class="reason-btn" onclick="openSheet('deserve')"><span class="ricon">&#x2728;</span><span class="rtxt">You deserve only kindness and love</span></button>
-      <button class="reason-btn" onclick="openSheet('miss')"><span class="ricon">&#x1F97A;</span><span class="rtxt">I miss your smile so much right now</span></button>
+      <div class="card-title"><span class="ci">🥺</span>Why I am sorry</div>
+      <button class="rbtn" onclick="openSheet('shout')">
+        <span class="rbtn-icon">💢</span>
+        <span class="rbtn-text">I should never have shouted at you</span>
+      </button>
+      <button class="rbtn" onclick="openSheet('hurt')">
+        <span class="rbtn-icon">🧡</span>
+        <span class="rbtn-text">I hurt your feelings and that is not okay</span>
+      </button>
+      <button class="rbtn" onclick="openSheet('deserve')">
+        <span class="rbtn-icon">✨</span>
+        <span class="rbtn-text">You deserve only kindness and love</span>
+      </button>
+      <button class="rbtn" onclick="openSheet('miss')">
+        <span class="rbtn-icon">🥺</span>
+        <span class="rbtn-text">I miss your smile so much right now</span>
+      </button>
     </div>
   </div>
 
-  <div class="section" style="animation-delay:.3s">
+  <div class="sec" style="animation-delay:.26s">
     <div class="card">
-      <div class="card-head"><span>&#x1F91D;</span> My promises to you, Chiku</div>
-      <div class="promise-grid">
-        <div class="promise-card" onclick="openSheet('p1')"><span class="pico">&#x1F9D8;</span><div class="ptxt">Stay calm always</div></div>
-        <div class="promise-card" onclick="openSheet('p2')"><span class="pico">&#x1F442;</span><div class="ptxt">Listen more to you</div></div>
-        <div class="promise-card" onclick="openSheet('p3')"><span class="pico">&#x1F917;</span><div class="ptxt">Extra hugs daily</div></div>
-        <div class="promise-card" onclick="openSheet('p4')"><span class="pico">&#x1F451;</span><div class="ptxt">Treat you like a queen</div></div>
+      <div class="card-title"><span class="ci">🤝</span>My promises to you</div>
+      <div class="pgrid">
+        <div class="pcard" onclick="openSheet('p1')"><span class="pcard-icon">🧘</span><div class="pcard-text">Stay calm always</div></div>
+        <div class="pcard" onclick="openSheet('p2')"><span class="pcard-icon">👂</span><div class="pcard-text">Listen more to you</div></div>
+        <div class="pcard" onclick="openSheet('p3')"><span class="pcard-icon">🤗</span><div class="pcard-text">Extra hugs daily</div></div>
+        <div class="pcard" onclick="openSheet('p4')"><span class="pcard-icon">👑</span><div class="pcard-text">Treat you like a queen</div></div>
       </div>
     </div>
   </div>
 
-  <button class="hug-btn" id="hugBtn" onclick="sendHug()">&#x1F48C; Send Chiku a virtual hug!</button>
-  <div class="footer">Made with so much love, just for my Chiku &#x2764;&#xFE0F;</div>
+  <div class="hug-wrap">
+    <button class="hug-btn" id="hugBtn" onclick="sendHug()">
+      <span style="font-size:20px">💌</span> Send Chiku a virtual hug!
+    </button>
+  </div>
 
-  <div class="overlay" id="overlay" onclick="closeSheet(event)">
-    <div class="sheet">
+  <div class="footer">Made with all my love, just for my Chiku ❤️</div>
+</div>
+
+<div class="overlay" id="overlay" onclick="maybeClose(event)">
+  <div class="sheet" id="sheet">
+    <div class="sheet-drag"></div>
+    <div class="sheet-inner">
       <span class="sheet-ico" id="sico"></span>
       <div class="sheet-title" id="stitle"></div>
-      <p class="sheet-body" id="sbody"></p>
-      <button class="sheet-close" onclick="closeSheetDirect()">Okay, I feel a little better &#x1F970;</button>
+      <div class="sheet-body" id="sbody"></div>
+      <button class="sheet-close" onclick="closeSheet()">Okay, I feel a little better 🥰</button>
     </div>
   </div>
 </div>
 
 <script>
-var data={
-  shout:{ico:'&#x1F62D;',title:'I should never have shouted',body:"No matter how stressed or upset I was, raising my voice at you was not okay. You are my safe place — and I want to be yours too. I promise to always communicate with softness and love, never anger."},
-  hurt:{ico:'&#x1F494;',title:'Your feelings matter so much',body:"When I see you sad, especially because of me, it hurts more than anything. You feel everything so deeply and that is one of the things I love most about you, Chiku. I am sorry I made you feel anything less than adored."},
-  deserve:{ico:'&#x1F31F;',title:'You deserve so much better',body:"You are the sweetest, most caring person I know. You deserve patience, softness and love every single day — not someone losing their temper. I will do better for you, I promise."},
-  miss:{ico:'&#x1FAF6;',title:'I miss my Chiku \u2764',body:"Every moment you are upset with me feels like forever. I miss your smile, your laugh, your warmth — everything about you. Please let me make it up to you, my love."},
-  p1:{ico:'&#x1F9D8;',title:'I will stay calm',body:"When things get hard, I promise to take a breath instead of raising my voice. You deserve a calm, patient and loving partner — and that is exactly what I will be for you."},
-  p2:{ico:'&#x1F442;',title:'I will listen more',body:"I promise to truly listen to you — not just hear you. Your thoughts, your feelings, your dreams all matter deeply to me. I am all yours, Chiku."},
-  p3:{ico:'&#x1F917;',title:'Extra hugs incoming',body:"I will hug you tighter and love you louder every single day to make up for yesterday and for every moment I was not my best self. Prepare for a lot of hugs, Chiku!"},
-  p4:{ico:'&#x1F451;',title:'Treat you like royalty',body:"You are my queen, Chiku, and I will treat you exactly the way you deserve — with endless love, respect and care, every single day without fail."}
+var D={
+  shout:{i:'😭',t:'I should never have shouted',b:"No matter how stressed I was, raising my voice at you was completely wrong. You are my safe place — and I want to be yours too. I promise to always speak with softness and love, never anger. Never again."},
+  hurt:{i:'💔',t:'Your feelings matter so much',b:"Seeing you sad — especially because of me — hurts more than anything. You feel everything so deeply, and that's one of the things I love most about you, Chiku. I'm so sorry for making you feel anything less than adored."},
+  deserve:{i:'🌟',t:'You deserve so much better',b:"You are the sweetest, most caring person I know. You deserve patience, gentleness and love every single day — not someone losing their temper. I will do better for you, Chiku. I promise."},
+  miss:{i:'🫶',t:'I miss my Chiku so much',b:"Every moment you are upset with me feels like forever. I miss your smile, your laugh, your warmth — every little thing about you. Please let me make it up to you, my love. I am right here."},
+  p1:{i:'🧘',t:'I will always stay calm',b:"When things get hard, I promise to breathe instead of raising my voice. You deserve a calm, patient and loving partner — and that is exactly what I will be for you, always."},
+  p2:{i:'👂',t:'I will truly listen',b:"I promise to listen to you properly — not just hear you. Your thoughts, your feelings, your dreams matter so deeply to me. I am all yours, Chiku, always and forever."},
+  p3:{i:'🤗',t:'So many extra hugs!',b:"I will hug you tighter and love you louder every single day to make up for yesterday. Prepare yourself, Chiku — so many hugs are coming your way! 🌸"},
+  p4:{i:'👑',t:'You are my queen, Chiku',b:"You are my queen and I will treat you exactly the way you deserve — with endless love, respect and care every single day without fail. You mean the whole world to me."}
 };
 
-function openSheet(key){
-  var d=data[key];
-  document.getElementById('sico').innerHTML=d.ico;
-  document.getElementById('stitle').textContent=d.title;
-  document.getElementById('sbody').textContent=d.body;
+function openSheet(k){
+  var d=D[k];
+  document.getElementById('sico').textContent=d.i;
+  document.getElementById('stitle').textContent=d.t;
+  document.getElementById('sbody').textContent=d.b;
   document.getElementById('overlay').classList.add('show');
 }
-function closeSheetDirect(){document.getElementById('overlay').classList.remove('show');}
-function closeSheet(e){if(e.target===document.getElementById('overlay'))closeSheetDirect();}
+function closeSheet(){document.getElementById('overlay').classList.remove('show');}
+function maybeClose(e){if(e.target===document.getElementById('overlay'))closeSheet();}
 
 function sendHug(){
   var btn=document.getElementById('hugBtn');
-  btn.textContent='Sending love to Chiku... \u2764\uFE0F';
+  btn.innerHTML='<span style="font-size:20px">❤️</span> Sending love to Chiku...';
   btn.style.background='#880e4f';
-  for(var i=0;i<18;i++){
+  btn.style.boxShadow='0 4px 20px rgba(136,14,79,.4)';
+  var icons=['❤️','💋','🌸','✨','🥰','💕','🌹'];
+  for(var i=0;i<22;i++){
     (function(idx){
       setTimeout(function(){
         var s=document.createElement('div');
-        var icons=['&#x2764;','&#x1F48B;','&#x1F338;','&#x2728;','&#x1F970;'];
-        s.innerHTML=icons[idx%5];
-        s.style.cssText='position:fixed;font-size:26px;pointer-events:none;z-index:99;left:'+Math.round(Math.random()*80)+'vw;top:'+Math.round(Math.random()*80)+'vh;animation:sparkle 1.5s ease forwards';
+        s.textContent=icons[idx%icons.length];
+        s.style.cssText='position:fixed;font-size:'+(20+Math.round(Math.random()*14))+'px;pointer-events:none;z-index:200;left:'+Math.round(10+Math.random()*75)+'vw;top:'+Math.round(10+Math.random()*75)+'vh;animation:sparkle 1.6s ease forwards';
         document.body.appendChild(s);
-        setTimeout(function(){s.remove();},1600);
-      },idx*110);
+        setTimeout(function(){s.remove();},1700);
+      },idx*90);
     })(i);
   }
   setTimeout(function(){
-    data['hug']={ico:'&#x1F48C;',title:'Hug delivered to Chiku!',body:'A warm, tight, never-ending hug has been sent straight to Chiku with all the love in the world. Please forgive me, my love. I am sorry from the bottom of my heart. \u2764\uFE0F'};
+    D.hug={i:'💌',t:'Hug delivered to Chiku!',b:'A warm, never-ending hug has been sent straight to you with all the love in the world, Chiku. Please forgive me. I am sorry from the very bottom of my heart. ❤️'};
     openSheet('hug');
-    btn.textContent='\u2764 Hug sent to Chiku!';
+    btn.innerHTML='<span style="font-size:20px">❤️</span> Hug sent to Chiku!';
     btn.style.background='#c2185b';
-  },2000);
+    btn.style.boxShadow='0 4px 20px rgba(194,24,91,.3)';
+  },2200);
 }
 
-/* ── Floating hearts canvas ── */
-var canvas=document.getElementById('heartCanvas');
-var ctx=canvas.getContext('2d');
-
-function resize(){
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
-}
+/* Floating hearts on canvas */
+var cv=document.getElementById('heartCanvas');
+var cx=cv.getContext('2d');
+function resize(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
 resize();
 window.addEventListener('resize',resize);
 
-function heartPath(ctx,x,y,size){
-  ctx.save();
-  ctx.translate(x,y);
-  ctx.scale(size,size);
-  ctx.beginPath();
-  ctx.moveTo(0,-0.35);
-  ctx.bezierCurveTo(0.5,-1,1.2,-0.2,0,0.6);
-  ctx.bezierCurveTo(-1.2,-0.2,-0.5,-1,0,-0.35);
-  ctx.closePath();
-  ctx.restore();
+function hpath(x,y,s){
+  cx.save();cx.translate(x,y);cx.scale(s,s);
+  cx.beginPath();cx.moveTo(0,-.35);
+  cx.bezierCurveTo(.5,-1,1.2,-.2,0,.6);
+  cx.bezierCurveTo(-1.2,-.2,-.5,-1,0,-.35);
+  cx.closePath();cx.restore();
 }
-
-var COLORS=['rgba(255,105,180,','rgba(255,150,200,','rgba(255,182,193,','rgba(219,112,147,','rgba(255,20,147,','rgba(255,200,220,'];
-
-var hearts=[];
-for(var i=0;i<28;i++){
-  hearts.push(spawnHeart(true));
+var COLS=['rgba(255,105,180,','rgba(255,150,200,','rgba(255,182,193,','rgba(219,112,147,','rgba(255,20,147,','rgba(255,100,160,'];
+var hs=[];
+for(var i=0;i<36;i++) hs.push(mk(true));
+function mk(init){
+  var s=4+Math.random()*22;
+  return{x:Math.random()*window.innerWidth,y:init?Math.random()*window.innerHeight:window.innerHeight+s*2,s:s,vy:.3+Math.random()*.9,vx:(Math.random()-.5)*.4,op:.08+Math.random()*.22,w:Math.random()*Math.PI*2,ws:.012+Math.random()*.022,c:COLS[Math.floor(Math.random()*COLS.length)],r:(Math.random()-.5)*.5};
 }
-
-function spawnHeart(initial){
-  var size=6+Math.random()*18;
-  return{
-    x:Math.random()*window.innerWidth,
-    y:initial?Math.random()*window.innerHeight:window.innerHeight+size*2,
-    size:size,
-    speedY:0.4+Math.random()*0.8,
-    speedX:(Math.random()-0.5)*0.5,
-    opacity:0.12+Math.random()*0.28,
-    wobble:Math.random()*Math.PI*2,
-    wobbleSpeed:0.015+Math.random()*0.02,
-    color:COLORS[Math.floor(Math.random()*COLORS.length)],
-    rotation:(Math.random()-0.5)*0.6
-  };
-}
-
-function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  for(var i=0;i<hearts.length;i++){
-    var h=hearts[i];
-    h.y-=h.speedY;
-    h.wobble+=h.wobbleSpeed;
-    h.x+=Math.sin(h.wobble)*0.6+h.speedX;
-    if(h.y<-h.size*3){hearts[i]=spawnHeart(false);}
-    ctx.save();
-    ctx.globalAlpha=h.opacity;
-    ctx.translate(h.x,h.y);
-    ctx.rotate(h.rotation+Math.sin(h.wobble*0.5)*0.08);
-    ctx.scale(1,1);
-    heartPath(ctx,0,0,h.size);
-    ctx.fillStyle=h.color+'1)';
-    ctx.fill();
-    ctx.restore();
+function draw(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  for(var i=0;i<hs.length;i++){
+    var h=hs[i];
+    h.y-=h.vy; h.w+=h.ws; h.x+=Math.sin(h.w)*.5+h.vx;
+    if(h.y<-h.s*3) hs[i]=mk(false);
+    cx.save();cx.globalAlpha=h.op;cx.translate(h.x,h.y);cx.rotate(h.r+Math.sin(h.w*.5)*.07);
+    hpath(0,0,h.s);cx.fillStyle=h.c+'1)';cx.fill();cx.restore();
   }
-  requestAnimationFrame(animate);
+  requestAnimationFrame(draw);
 }
-animate();
+draw();
 </script>
